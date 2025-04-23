@@ -3,7 +3,7 @@ app= Flask(__name__)
 @app.route("/")
 def hello():
     return jsonify(message= "Hello kiran don here!")
-@app.route('/favicon.ioc')
+@app.route('/favicon.ico')
 def favicon():
     return "Kiran don"
 
