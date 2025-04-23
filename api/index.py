@@ -4,8 +4,8 @@ app= Flask(__name__)
 def hello():
     return jsonify(message= "Hello kiran don here!")
 
-def handler(environ, start_responce):
-    return app(environ, start_responce)
+def handler(environ, start_response):
+    return app(environ, start_response)
 
 #if __name__ == '__main__':
  #   app.run(debug=True)
