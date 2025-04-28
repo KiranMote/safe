@@ -8,28 +8,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
         }
-        h1 {
-            color: #4CAF50;
-        }
         .messages {
-            border: 1px solid #ccc;
-            padding: 10px;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
             height: 300px;
             overflow-y: scroll;
             background-color: white;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .chat-message {
-            margin-bottom: 10px;
-            padding: 8px 12px;
+            margin-bottom: 12px;
+            padding: 10px 16px;
             border-radius: 18px;
             max-width: 80%;
             animation: fadeIn 0.3s ease-in;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            line-height: 1.4;
         }
         .user-message {
             background-color: #e3f2fd;
@@ -37,76 +36,125 @@
             border-bottom-right-radius: 4px;
         }
         .bot-message {
-            background-color: #f1f1f1;
+            background-color: #f8f9fa;
             margin-right: auto;
             border-bottom-left-radius: 4px;
+            border: 1px solid #e2e8f0;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .input-box {
-            display: flex;
-            margin-top: 10px;
-        }
         #user-input {
             flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
             border-radius: 20px 0 0 20px;
             outline: none;
+            transition: border-color 0.3s;
+        }
+        #user-input:focus {
+            border-color: #4CAF50;
         }
         #send-btn {
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 0 20px;
             border-radius: 0 20px 20px 0;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .social-icons {
-            margin-top: 10px;
+        #send-btn:hover {
+            background-color: #3e8e41;
         }
         .social-icons a {
-            margin: 0 10px;
+            margin: 0 12px;
             color: #4CAF50;
-            font-size: 20px;
+            font-size: 22px;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .social-icons a:hover {
+            color: #3e8e41;
+            transform: scale(1.1);
+        }
+        .robot-img {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .robot-img:hover {
+            transform: scale(1.02);
+        }
+        .header-container {
+            position: relative;
+        }
+        .social-float {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
         }
     </style>
 </head>
-<body>
-    <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Welcome to Safest AGI</h1>
-        <img src="{{ url_for('static', filename='agiimg.jpg') }}" alt="Robot Image" width="300" class="rounded-lg shadow mb-6">
+<body class="min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Header with centered robot image -->
+        <div class="header-container text-center mb-8">
+            <!-- Floating social icons -->
+            <div class="social-float">
+                <a href="https://x.com/KiranMote150774" target="_blank" aria-label="X (formerly Twitter)">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="https://instagram.com/kiran_1878_" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
 
-        <div class="description bg-white p-6 rounded-lg shadow mb-6">
-            <h2 class="text-xl font-semibold mb-2">Aim</h2>
-            <p class="mb-4">Our aim is to develop safe Artificial General Intelligence (AGI) that benefits humanity.</p>
-            <h2 class="text-xl font-semibold mb-2">Why Humanity Develops Safe AGI</h2>
-            <p>Humanity strives to develop safe AGI to ensure that advanced technologies are aligned with human values and ethics, preventing potential risks and promoting positive outcomes for society.</p>
+            <h1 class="text-4xl font-bold text-green-600 mb-6">Welcome to Safest AGI</h1>
+            <div class="flex justify-center">
+                <img src="{{ url_for('static', filename='agiimg.jpg') }}" alt="Robot Image" width="350" class="robot-img rounded-lg">
+            </div>
         </div>
 
-        <div class="chatbox bg-white p-6 rounded-lg shadow mb-6">
-            <h2 class="text-xl font-semibold mb-4">Chat with Safest AGI</h2>
+        <!-- Description section -->
+        <div class="bg-white p-8 rounded-xl shadow-md mb-8">
+            <h2 class="text-2xl font-semibold text-green-600 mb-4">Aim</h2>
+            <p class="text-gray-700 mb-6 leading-relaxed">Our aim is to develop safe Artificial General Intelligence (AGI) that benefits humanity while ensuring alignment with human values and ethical principles.</p>
+
+            <h2 class="text-2xl font-semibold text-green-600 mb-4">Why Humanity Develops Safe AGI</h2>
+            <p class="text-gray-700 leading-relaxed">Humanity strives to develop safe AGI to create advanced technologies that are aligned with human values and ethics, preventing potential risks while promoting positive outcomes for society. We believe in responsible innovation that prioritizes safety and beneficial impact.</p>
+        </div>
+
+        <!-- Chatbot section -->
+        <div class="bg-white p-8 rounded-xl shadow-md mb-8">
+            <h2 class="text-2xl font-semibold text-green-600 mb-6">Chat with Safest AGI</h2>
             <div id="messages" class="messages">
                 <div class="bot-message chat-message">
                     <p>Hello! I'm your Safest AGI assistant. How can I help you today?</p>
                 </div>
             </div>
-            <div class="input-box">
-                <input type="text" id="user-input" placeholder="Type your message here...">
-                <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            <div class="flex">
+                <input type="text" id="user-input" placeholder="Type your message here..." class="text-gray-700">
+                <button id="send-btn" class="flex items-center justify-center">
+                    <i class="fas fa-paper-plane text-xl"></i>
+                </button>
             </div>
         </div>
 
-        <footer class="bg-white p-6 rounded-lg shadow text-center">
-            <div class="contact">
-                <p class="font-bold">Kiran Mote</p>
-                <p>Contact: 7517833790</p>
+        <!-- Footer with contact info -->
+        <footer class="bg-white p-8 rounded-xl shadow-md text-center">
+            <div class="contact mb-6">
+                <p class="font-bold text-xl text-green-600 mb-2">Kiran Mote</p>
+                <p class="text-gray-700">Contact: 7517833790</p>
             </div>
             <div class="social-icons">
-                <a href="https://twitter.com/" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/KiranMote150774" target="_blank" aria-label="X (formerly Twitter)">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="https://instagram.com/kiran_1878_" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
             </div>
         </footer>
     </div>
@@ -134,7 +182,7 @@
                     // Show typing indicator
                     const typingDiv = document.createElement('div');
                     typingDiv.className = 'bot-message chat-message';
-                    typingDiv.innerHTML = '<p><i class="fas fa-ellipsis-h"></i> Typing...</p>';
+                    typingDiv.innerHTML = '<p><i class="fas fa-ellipsis-h"></i> Thinking...</p>';
                     messagesContainer.appendChild(typingDiv);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
@@ -145,7 +193,7 @@
 
                         // Add bot response
                         addMessage("Deepseek api is not connected so wait for some days", false);
-                    }, 1000);
+                    }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
                 }
             }
 
@@ -156,6 +204,14 @@
                     sendMessage();
                 }
             });
+
+            // Initial greeting animation
+            setTimeout(() => {
+                const firstMessage = document.querySelector('.bot-message');
+                if (firstMessage) {
+                    firstMessage.style.animation = 'fadeIn 0.5s ease-in';
+                }
+            }, 300);
         });
     </script>
 </body>
