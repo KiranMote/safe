@@ -3,141 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safest AGI with Chatbot</title>
+    <title>Safest AGI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @keyframes fadeIn {from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        .message{animation:fadeIn 0.3s ease-out}
-        .typing-indicator span{display:inline-block;width:8px;height:8px;border-radius:50%;background-color:#4f46e5;margin:0 2px;opacity:0.4}
-        .typing-indicator span:nth-child(1){animation:bounce 1s infinite}
-        .typing-indicator span:nth-child(2){animation:bounce 1s infinite 0.2s}
-        .typing-indicator span:nth-child(3){animation:bounce 1s infinite 0.4s}
-        @keyframes bounce{0%,100%{transform:translateY(0);opacity:0.4}50%{transform:translateY(-5px);opacity:1}}
-        .chat-container{height:calc(100vh - 120px)}
-        @media (max-width:640px){.chat-container{height:calc(100vh - 100px)}}
-        .safest-agi{max-width:800px;margin:0 auto;padding:20px}
-        .safest-agi h1{color:#4CAF50;text-align:center;margin-bottom:20px}
-        .safest-agi img{display:block;margin:0 auto 20px;max-width:300px;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
-        .description{margin-top:20px;background-color:#f9f9f9;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.05)}
-        .description h2{color:#4CAF50;margin-top:15px}
-        .contact{margin-top:40px;font-weight:bold;text-align:center;padding:15px;background-color:#f0f7f0;border-radius:8px}
-        .divider{height:2px;background:linear-gradient(90deg,transparent,#4CAF50,transparent);margin:40px 0}
+        .chat-container {
+            transition: all 0.3s ease;
+        }
+        .chat-messages {
+            scrollbar-width: thin;
+            scrollbar-color: #4CAF50 #f1f1f1;
+        }
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: #4CAF50;
+            border-radius: 6px;
+        }
+        .typing-indicator::after {
+            content: '...';
+            animation: typing 1.5s infinite;
+        }
+        @keyframes typing {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
     </style>
 </head>
-<body>
-    <div class="safest-agi">
-        <h1>Welcome to Safest AGI</h1>
-        <img src="https://via.placeholder.com/300" alt="Robot Image" width="300">
-        <div class="description">
-            <h2>Aim</h2>
-            <p>Our aim is to develop safe Artificial General Intelligence (AGI) that benefits humanity.</p>
-            <h2>Why Humanity Develops Safe AGI</h2>
-            <p>Humanity strives to develop safe AGI to ensure that advanced technologies are aligned with human values and ethics, preventing potential risks and promoting positive outcomes for society.</p>
-        </div>
-        <div class="divider"></div>
-        <h2 style="text-align:center;color:#4f46e5">Ask our AI Assistant about AGI</h2>
-    </div>
+<body class="bg-gray-50 min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-green-600 mb-4">Welcome to Safest AGI</h1>
+            <img src="{{ url_for('static', filename='agiimg.jpg') }}" alt="Robot Image" class="mx-auto rounded-lg shadow-lg w-64 h-64 object-cover">
+        </header>
 
-    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden mb-10">
-        <div class="bg-indigo-600 text-white p-4 flex items-center">
-            <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center mr-3">
-                <i class="fas fa-robot text-xl"></i>
-            </div>
-            <div>
-                <h1 class="font-bold text-lg">AI Assistant</h1>
-                <p class="text-xs opacity-80">Powered by DeepSeek AI</p>
-            </div>
-            <button id="clear-chat" class="ml-auto text-white hover:text-indigo-200">
-                <i class="fas fa-trash-alt"></i>
-            </button>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-green-600 mb-3">Aim</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Our aim is to develop safe Artificial General Intelligence (AGI) that benefits humanity.
+                </p>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold text-green-600 mb-3">Why Humanity Develops Safe AGI</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Humanity strives to develop safe AGI to ensure that advanced technologies are aligned with human values and ethics,
+                    preventing potential risks and promoting positive outcomes for society.
+                </p>
+            </section>
         </div>
-        <div id="chat-messages" class="chat-container p-4 overflow-y-auto flex-grow space-y-3">
-            <div class="message flex">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
-                    <i class="fas fa-robot text-indigo-600"></i>
-                </div>
-                <div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md">
-                    <p>Hello! I'm your AI assistant powered by DeepSeek. How can I help you with AGI questions today?</p>
-                    <p class="text-xs text-gray-500 mt-1">Just now</p>
-                </div>
-            </div>
-        </div>
-        <div id="typing-indicator" class="px-4 pb-2 hidden">
-            <div class="flex items-center">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
-                    <i class="fas fa-robot text-indigo-600"></i>
-                </div>
-                <div class="typing-indicator bg-indigo-100 rounded-full px-4 py-2">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-gray-200 p-4 bg-white">
-            <form id="message-form" class="flex space-x-2">
-                <input id="message-input" type="text" placeholder="Type your message..." class="flex-grow border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" autocomplete="off">
-                <button type="submit" class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 transition-colors">
-                    <i class="fas fa-paper-plane"></i>
+
+        <!-- Chatbot UI -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <div class="bg-green-600 text-white p-4 flex items-center">
+                <i class="fas fa-robot text-2xl mr-3"></i>
+                <h3 class="text-xl font-semibold">AGI Assistant</h3>
+                <button id="toggle-chat" class="ml-auto focus:outline-none">
+                    <i class="fas fa-chevron-down"></i>
                 </button>
-            </form>
-        </div>
-    </div>
+            </div>
 
-    <div class="safest-agi">
-        <div class="contact">
-            <p>Kiran Mote</p>
-            <p>Contact: 7517833790</p>
+            <div id="chat-container" class="chat-container h-96 flex flex-col">
+                <div id="chat-messages" class="chat-messages flex-1 p-4 overflow-y-auto">
+                    <div class="flex mb-4">
+                        <div class="bg-green-100 rounded-lg p-3 max-w-xs lg:max-w-md">
+                            <p class="text-gray-800">Hello! I'm your AGI assistant. How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 border-t border-gray-200">
+                    <div id="typing-indicator" class="typing-indicator text-gray-500 text-sm mb-2 hidden">
+                        AGI Assistant is typing
+                    </div>
+                    <div class="flex">
+                        <input type="text" id="user-input"
+                            class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            placeholder="Type your message...">
+                        <button id="send-btn" class="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <footer class="text-center mt-8 p-4 bg-white rounded-lg shadow-md">
+            <p class="font-bold text-gray-800">Kiran Mote</p>
+            <p class="text-gray-600">Contact: 7517833790</p>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="#" class="text-green-600 hover:text-green-800">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="#" class="text-green-600 hover:text-green-800">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="#" class="text-green-600 hover:text-green-800">
+                    <i class="fas fa-envelope text-xl"></i>
+                </a>
+            </div>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded',()=>{
-            const mf=document.getElementById('message-form'),mi=document.getElementById('message-input'),
-                  cm=document.getElementById('chat-messages'),ti=document.getElementById('typing-indicator'),
-                  cc=document.getElementById('clear-chat'),DSAK='YOUR_DEEPSEEK_API_KEY',DSU='https://api.deepseek.com/v1/chat/completions';
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chat-container');
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const toggleChat = document.getElementById('toggle-chat');
+            const typingIndicator = document.getElementById('typing-indicator');
 
-            function am(s,t,b=false){
-                const d=document.createElement('div'),ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-                d.className=`message flex ${b?'':'justify-end'}`;
-                d.innerHTML=b?`<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0"><i class="fas fa-robot text-indigo-600"></i></div><div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md"><p>${t}</p><p class="text-xs text-gray-500 mt-1">${ts}</p></div>`:`<div class="bg-indigo-600 text-white rounded-lg p-3 max-w-xs md:max-w-md"><p>${t}</p><p class="text-xs text-indigo-200 mt-1">${ts}</p></div><div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center ml-2 flex-shrink-0"><i class="fas fa-user text-white"></i></div>`;
-                cm.appendChild(d);cm.scrollTop=cm.scrollHeight;
-            }
+            let isChatMinimized = false;
 
-            async function cd(m){
-                try{
-                    const r=await fetch(DSU,{
-                        method:'POST',
-                        headers:{'Content-Type':'application/json','Authorization':`Bearer ${DSAK}`},
-                        body:JSON.stringify({
-                            model:"deepseek-chat",
-                            messages:[
-                                {role:"system",content:"You are an AI assistant specialized in Artificial General Intelligence (AGI). Provide detailed, accurate information about AGI development, safety, ethics, and future implications. Keep responses professional but approachable."},
-                                {role:"user",content:m}
-                            ],
-                            temperature:0.7,
-                            max_tokens:1000
-                        })
-                    });
-                    if(!r.ok)throw new Error(`API request failed with status ${r.status}`);
-                    const d=await r.json();return d.choices[0].message.content;
-                }catch(e){console.error('Error calling DeepSeek API:',e);return "I'm having trouble connecting to the DeepSeek API right now. Please try again later.";}
-            }
-
-            mf.addEventListener('submit',async e=>{
-                e.preventDefault();const m=mi.value.trim();
-                if(m){
-                    am('user',m);mi.value='';
-                    ti.classList.remove('hidden');cm.scrollTop=cm.scrollHeight;
-                    try{const b=await cd(m);ti.classList.add('hidden');am('bot',b,true);}
-                    catch(e){ti.classList.add('hidden');am('bot',"Sorry, I encountered an error while processing your request. Please try again.",true);}
+            // Toggle chat visibility
+            toggleChat.addEventListener('click', function() {
+                isChatMinimized = !isChatMinimized;
+                if (isChatMinimized) {
+                    chatContainer.style.height = '0';
+                    toggleChat.innerHTML = '<i class="fas fa-chevron-up"></i>';
+                } else {
+                    chatContainer.style.height = '24rem';
+                    toggleChat.innerHTML = '<i class="fas fa-chevron-down"></i>';
                 }
             });
 
-            cc.addEventListener('click',()=>{
-                cm.innerHTML=`<div class="message flex"><div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0"><i class="fas fa-robot text-indigo-600"></i></div><div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md"><p>Hello! I'm your AI assistant powered by DeepSeek. How can I help you with AGI questions today?</p><p class="text-xs text-gray-500 mt-1">Just now</p></div></div>`;
-            });
+            // Send message function
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
 
-            mi.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();mf.dispatchEvent(new Event('submit'));}});
+                // Add user message
+                addMessage(message, 'user');
+                userInput.value = '';
+
+                // Show typing indicator
+                typingIndicator.classList.remove('hidden');
+
+                // Simulate AGI response after a delay
+                setTimeout(() => {
+                    typingIndicator.classList.add('hidden');
+                    const response = "kiran is adding Deepseek api so this service is currently not available";
+                    addMessage(response, 'bot');
+
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1500);
+            }
+
+            // Add message to chat
+            function addMessage(message, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : ''}`;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = sender === 'user'
+                    ? 'bg-blue-100 rounded-lg p-3 max-w-xs lg:max-w-md'
+                    : 'bg-green-100 rounded-lg p-3 max-w-xs lg:max-w-md';
+
+                contentDiv.innerHTML = `<p class="text-gray-800">${message}</p>`;
+                messageDiv.appendChild(contentDiv);
+                chatMessages.appendChild(messageDiv);
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Event listeners
+            sendBtn.addEventListener('click', sendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
         });
     </script>
 </body>
