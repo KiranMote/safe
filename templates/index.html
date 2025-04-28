@@ -85,32 +85,12 @@
         .robot-img:hover {
             transform: scale(1.02);
         }
-        .header-container {
-            position: relative;
-        }
-        .social-float {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 15px;
-        }
     </style>
 </head>
 <body class="min-h-screen">
     <div class="max-w-4xl mx-auto px-4 py-8">
         <!-- Header with centered robot image -->
-        <div class="header-container text-center mb-8">
-            <!-- Floating social icons -->
-            <div class="social-float">
-                <a href="https://x.com/KiranMote150774" target="_blank" aria-label="X (formerly Twitter)">
-                    <i class="fab fa-x-twitter"></i>
-                </a>
-                <a href="https://instagram.com/kiran_1878_" target="_blank" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </div>
-
+        <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-green-600 mb-6">Welcome to Safest AGI</h1>
             <div class="flex justify-center">
                 <img src="{{ url_for('static', filename='agiimg.jpg') }}" alt="Robot Image" width="350" class="robot-img rounded-lg">
@@ -149,8 +129,8 @@
                 <p class="text-gray-700">Contact: 7517833790</p>
             </div>
             <div class="social-icons">
-                <a href="https://x.com/KiranMote150774" target="_blank" aria-label="X (formerly Twitter)">
-                    <i class="fab fa-x-twitter"></i>
+                <a href="https://x.com/KiranMote150774" target="_blank" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
                 </a>
                 <a href="https://instagram.com/kiran_1878_" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
