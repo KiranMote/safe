@@ -16,5 +16,3 @@ def chat():
     response = chatbot(user_input, max_length=50)
     return jsonify({'response': response[0]['generated_text']})
 
-# if __name__ == '__main__':
-#     app.run(debug=True)

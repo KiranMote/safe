@@ -7,110 +7,25 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #4f46e5;
-            margin: 0 2px;
-            opacity: 0.4;
-        }
-
-        .typing-indicator span:nth-child(1) {
-            animation: bounce 1s infinite;
-        }
-
-        .typing-indicator span:nth-child(2) {
-            animation: bounce 1s infinite 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation: bounce 1s infinite 0.4s;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); opacity: 0.4; }
-            50% { transform: translateY(-5px); opacity: 1; }
-        }
-
-        .chat-container {
-            height: calc(100vh - 120px);
-        }
-
-        @media (max-width: 640px) {
-            .chat-container {
-                height: calc(100vh - 100px);
-            }
-        }
-
-        /* Safest AGI styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .safest-agi {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .safest-agi h1 {
-            color: #4CAF50;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .safest-agi img {
-            display: block;
-            margin: 0 auto 20px;
-            max-width: 300px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .description {
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .description h2 {
-            color: #4CAF50;
-            margin-top: 15px;
-        }
-
-        .contact {
-            margin-top: 40px;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            background-color: #f0f7f0;
-            border-radius: 8px;
-        }
-
-        .divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #4CAF50, transparent);
-            margin: 40px 0;
-        }
+        @keyframes fadeIn {from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .message{animation:fadeIn 0.3s ease-out}
+        .typing-indicator span{display:inline-block;width:8px;height:8px;border-radius:50%;background-color:#4f46e5;margin:0 2px;opacity:0.4}
+        .typing-indicator span:nth-child(1){animation:bounce 1s infinite}
+        .typing-indicator span:nth-child(2){animation:bounce 1s infinite 0.2s}
+        .typing-indicator span:nth-child(3){animation:bounce 1s infinite 0.4s}
+        @keyframes bounce{0%,100%{transform:translateY(0);opacity:0.4}50%{transform:translateY(-5px);opacity:1}}
+        .chat-container{height:calc(100vh - 120px)}
+        @media (max-width:640px){.chat-container{height:calc(100vh - 100px)}}
+        .safest-agi{max-width:800px;margin:0 auto;padding:20px}
+        .safest-agi h1{color:#4CAF50;text-align:center;margin-bottom:20px}
+        .safest-agi img{display:block;margin:0 auto 20px;max-width:300px;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}
+        .description{margin-top:20px;background-color:#f9f9f9;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.05)}
+        .description h2{color:#4CAF50;margin-top:15px}
+        .contact{margin-top:40px;font-weight:bold;text-align:center;padding:15px;background-color:#f0f7f0;border-radius:8px}
+        .divider{height:2px;background:linear-gradient(90deg,transparent,#4CAF50,transparent);margin:40px 0}
     </style>
 </head>
 <body>
-    <!-- Safest AGI Content -->
     <div class="safest-agi">
         <h1>Welcome to Safest AGI</h1>
         <img src="https://via.placeholder.com/300" alt="Robot Image" width="300">
@@ -120,15 +35,11 @@
             <h2>Why Humanity Develops Safe AGI</h2>
             <p>Humanity strives to develop safe AGI to ensure that advanced technologies are aligned with human values and ethics, preventing potential risks and promoting positive outcomes for society.</p>
         </div>
-
         <div class="divider"></div>
-
-        <h2 style="text-align: center; color: #4f46e5;">Ask our AI Assistant about AGI</h2>
+        <h2 style="text-align:center;color:#4f46e5">Ask our AI Assistant about AGI</h2>
     </div>
 
-    <!-- Chatbot -->
     <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden mb-10">
-        <!-- Chat header -->
         <div class="bg-indigo-600 text-white p-4 flex items-center">
             <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center mr-3">
                 <i class="fas fa-robot text-xl"></i>
@@ -141,10 +52,7 @@
                 <i class="fas fa-trash-alt"></i>
             </button>
         </div>
-
-        <!-- Chat messages container -->
         <div id="chat-messages" class="chat-container p-4 overflow-y-auto flex-grow space-y-3">
-            <!-- Initial bot message -->
             <div class="message flex">
                 <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
                     <i class="fas fa-robot text-indigo-600"></i>
@@ -155,42 +63,26 @@
                 </div>
             </div>
         </div>
-
-        <!-- Typing indicator (hidden by default) -->
         <div id="typing-indicator" class="px-4 pb-2 hidden">
             <div class="flex items-center">
                 <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
                     <i class="fas fa-robot text-indigo-600"></i>
                 </div>
                 <div class="typing-indicator bg-indigo-100 rounded-full px-4 py-2">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
             </div>
         </div>
-
-        <!-- Message input area -->
         <div class="border-t border-gray-200 p-4 bg-white">
             <form id="message-form" class="flex space-x-2">
-                <input
-                    id="message-input"
-                    type="text"
-                    placeholder="Type your message..."
-                    class="flex-grow border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    autocomplete="off"
-                >
-                <button
-                    type="submit"
-                    class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 transition-colors"
-                >
+                <input id="message-input" type="text" placeholder="Type your message..." class="flex-grow border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" autocomplete="off">
+                <button type="submit" class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 transition-colors">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Contact Information at the bottom -->
     <div class="safest-agi">
         <div class="contact">
             <p>Kiran Mote</p>
@@ -199,148 +91,53 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const messageForm = document.getElementById('message-form');
-            const messageInput = document.getElementById('message-input');
-            const chatMessages = document.getElementById('chat-messages');
-            const typingIndicator = document.getElementById('typing-indicator');
-            const clearChatBtn = document.getElementById('clear-chat');
+        document.addEventListener('DOMContentLoaded',()=>{
+            const mf=document.getElementById('message-form'),mi=document.getElementById('message-input'),
+                  cm=document.getElementById('chat-messages'),ti=document.getElementById('typing-indicator'),
+                  cc=document.getElementById('clear-chat'),DSAK='YOUR_DEEPSEEK_API_KEY',DSU='https://api.deepseek.com/v1/chat/completions';
 
-            // DeepSeek API configuration
-            const DEEPSEEK_API_KEY = 'YOUR_DEEPSEEK_API_KEY'; // Replace with your actual API key
-            const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-
-            // Add a new message to the chat
-            function addMessage(sender, text, isBot = false) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message flex ${isBot ? '' : 'justify-end'}`;
-
-                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-                if (isBot) {
-                    messageDiv.innerHTML = `
-                        <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
-                            <i class="fas fa-robot text-indigo-600"></i>
-                        </div>
-                        <div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md">
-                            <p>${text}</p>
-                            <p class="text-xs text-gray-500 mt-1">${timestamp}</p>
-                        </div>
-                    `;
-                } else {
-                    messageDiv.innerHTML = `
-                        <div class="bg-indigo-600 text-white rounded-lg p-3 max-w-xs md:max-w-md">
-                            <p>${text}</p>
-                            <p class="text-xs text-indigo-200 mt-1">${timestamp}</p>
-                        </div>
-                        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center ml-2 flex-shrink-0">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
-                    `;
-                }
-
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+            function am(s,t,b=false){
+                const d=document.createElement('div'),ts=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+                d.className=`message flex ${b?'':'justify-end'}`;
+                d.innerHTML=b?`<div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0"><i class="fas fa-robot text-indigo-600"></i></div><div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md"><p>${t}</p><p class="text-xs text-gray-500 mt-1">${ts}</p></div>`:`<div class="bg-indigo-600 text-white rounded-lg p-3 max-w-xs md:max-w-md"><p>${t}</p><p class="text-xs text-indigo-200 mt-1">${ts}</p></div><div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center ml-2 flex-shrink-0"><i class="fas fa-user text-white"></i></div>`;
+                cm.appendChild(d);cm.scrollTop=cm.scrollHeight;
             }
 
-            // Show typing indicator
-            function showTypingIndicator() {
-                typingIndicator.classList.remove('hidden');
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            // Hide typing indicator
-            function hideTypingIndicator() {
-                typingIndicator.classList.add('hidden');
-            }
-
-            // Call DeepSeek API
-            async function callDeepSeekAPI(userMessage) {
-                try {
-                    const response = await fetch(DEEPSEEK_API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-                        },
-                        body: JSON.stringify({
-                            model: "deepseek-chat",
-                            messages: [
-                                {
-                                    role: "system",
-                                    content: "You are an AI assistant specialized in Artificial General Intelligence (AGI). Provide detailed, accurate information about AGI development, safety, ethics, and future implications. Keep responses professional but approachable."
-                                },
-                                {
-                                    role: "user",
-                                    content: userMessage
-                                }
+            async function cd(m){
+                try{
+                    const r=await fetch(DSU,{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json','Authorization':`Bearer ${DSAK}`},
+                        body:JSON.stringify({
+                            model:"deepseek-chat",
+                            messages:[
+                                {role:"system",content:"You are an AI assistant specialized in Artificial General Intelligence (AGI). Provide detailed, accurate information about AGI development, safety, ethics, and future implications. Keep responses professional but approachable."},
+                                {role:"user",content:m}
                             ],
-                            temperature: 0.7,
-                            max_tokens: 1000
+                            temperature:0.7,
+                            max_tokens:1000
                         })
                     });
-
-                    if (!response.ok) {
-                        throw new Error(`API request failed with status ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    return data.choices[0].message.content;
-                } catch (error) {
-                    console.error('Error calling DeepSeek API:', error);
-                    return "I'm having trouble connecting to the DeepSeek API right now. Please try again later.";
-                }
+                    if(!r.ok)throw new Error(`API request failed with status ${r.status}`);
+                    const d=await r.json();return d.choices[0].message.content;
+                }catch(e){console.error('Error calling DeepSeek API:',e);return "I'm having trouble connecting to the DeepSeek API right now. Please try again later.";}
             }
 
-            // Handle form submission
-            messageForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const message = messageInput.value.trim();
-
-                if (message) {
-                    // Add user message
-                    addMessage('user', message);
-                    messageInput.value = '';
-
-                    // Show typing indicator
-                    showTypingIndicator();
-
-                    try {
-                        // Call DeepSeek API
-                        const botResponse = await callDeepSeekAPI(message);
-
-                        // Hide typing indicator and show response
-                        hideTypingIndicator();
-                        addMessage('bot', botResponse, true);
-                    } catch (error) {
-                        hideTypingIndicator();
-                        addMessage('bot', "Sorry, I encountered an error while processing your request. Please try again.", true);
-                    }
+            mf.addEventListener('submit',async e=>{
+                e.preventDefault();const m=mi.value.trim();
+                if(m){
+                    am('user',m);mi.value='';
+                    ti.classList.remove('hidden');cm.scrollTop=cm.scrollHeight;
+                    try{const b=await cd(m);ti.classList.add('hidden');am('bot',b,true);}
+                    catch(e){ti.classList.add('hidden');am('bot',"Sorry, I encountered an error while processing your request. Please try again.",true);}
                 }
             });
 
-            // Clear chat history
-            clearChatBtn.addEventListener('click', function() {
-                chatMessages.innerHTML = `
-                    <div class="message flex">
-                        <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0">
-                            <i class="fas fa-robot text-indigo-600"></i>
-                        </div>
-                        <div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md">
-                            <p>Hello! I'm your AI assistant powered by DeepSeek. How can I help you with AGI questions today?</p>
-                            <p class="text-xs text-gray-500 mt-1">Just now</p>
-                        </div>
-                    </div>
-                `;
+            cc.addEventListener('click',()=>{
+                cm.innerHTML=`<div class="message flex"><div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-2 flex-shrink-0"><i class="fas fa-robot text-indigo-600"></i></div><div class="bg-indigo-100 text-gray-800 rounded-lg p-3 max-w-xs md:max-w-md"><p>Hello! I'm your AI assistant powered by DeepSeek. How can I help you with AGI questions today?</p><p class="text-xs text-gray-500 mt-1">Just now</p></div></div>`;
             });
 
-            // Allow pressing Enter to send message (but Shift+Enter for new line)
-            messageInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    messageForm.dispatchEvent(new Event('submit'));
-                }
-            });
+            mi.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();mf.dispatchEvent(new Event('submit'));}});
         });
     </script>
 </body>
