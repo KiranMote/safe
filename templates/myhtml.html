@@ -3,46 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safest AGI</title>
+    <title>Virtual Clothing Changer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-                  h1 {
-            color: #4CAF50; /* Green color for the heading */
+        .image-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
         }
-        .description {
-            margin-top: 20px;
+        .person-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .contact {
-            margin-top: 40px;
-            font-weight: bold;
+        .clothing-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: multiply;
         }
-        .chatbox {
-            margin-top: 40px;
+        .clothing-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .messages {
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 300px;
-            overflow-y: scroll;
-                  .input-box {
-            margin-top: 10px;
+        .clothing-option:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .clothing-option.selected {
+            border: 3px solid #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+        .dropzone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dropzone:hover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        .dropzone.active {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
         }
     </style>
 </head>
-<body>
-    <h1>Welcome to Safest AGI</h1>
-    <img src="{{ url_for('static', filename='agiimg.jpg') }}" alt="Robot Image" width="500px">
-    <div class="description">
-        <h2>Aim</h2>
-        <p>Our aim is to develop safe Artificial General Intelligence (AGI) that benefits humanity.</p>
-        <h2>Why Humanity Develops Safe AGI</h2>
-        <p>Humanity strives to develop safe AGI to ensure that advanced technologies are aligned with human values and ethics, preventing potential risks and promoting positive outcomes for society.</p>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Virtual Clothing Changer</h1>
+        <p class="text-center text-gray-600 mb-8">Upload a person and reference clothing to see how they would look</p>
+
+        <div class="flex flex-col lg:flex-row gap-8 mb-8">
+            <!-- Person Image Box -->
+            <div class="flex-1">
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Person to Dress</h2>
+                    <div class="image-container mx-auto mb-4 bg-gray-200 rounded-lg overflow-hidden">
+                        <img id="personImage" src="https://via.placeholder.com/300x400?text=Upload+Person" class="person-image">
+                        <img id="clothingOverlay" class="clothing-overlay" style="display: none;">
+                    </div>
+                    <div class="dropzone" id="personDropzone">
+                        <p class="text-gray-500">Drag & drop person image here or click to select</p>
+                        <input type="file" id="personUpload" accept="image/*" class="hidden">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reference Clothing Box -->
+            <div class="flex-1">
+                <div class="bg-white rounded-lg shadow-lg p-4">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Reference Clothing</h2>
+                    <div class="image-container mx-auto mb-4 bg-gray-200 rounded-lg overflow-hidden">
+                        <img id="referenceImage" src="https://via.placeholder.com/300x400?text=Upload+Clothing" class="person-image">
+                    </div>
+                    <div class="dropzone" id="clothingDropzone">
+                        <p class="text-gray-500">Drag & drop clothing image here or click to select</p>
+                        <input type="file" id="clothingUpload" accept="image/*" class="hidden">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clothing Options -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Predefined Clothing Options</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="clothing-option rounded-lg overflow-hidden" data-clothing="tshirt">
+                    <img src="https://via.placeholder.com/150x200?text=T-Shirt" class="w-full h-32 object-cover">
+                    <p class="text-center mt-2">T-Shirt</p>
+                </div>
+                <div class="clothing-option rounded-lg overflow-hidden" data-clothing="shirt">
+                    <img src="https://via.placeholder.com/150x200?text=Shirt" class="w-full h-32 object-cover">
+                    <p class="text-center mt-2">Shirt</p>
+                </div>
+                <div class="clothing-option rounded-lg overflow-hidden" data-clothing="dress">
+                    <img src="https://via.placeholder.com/150x200?text=Dress" class="w-full h-32 object-cover">
+                    <p class="text-center mt-2">Dress</p>
+                </div>
+                <div class="clothing-option rounded-lg overflow-hidden" data-clothing="jacket">
+                    <img src="https://via.placeholder.com/150x200?text=Jacket" class="w-full h-32 object-cover">
+                    <p class="text-center mt-2">Jacket</p>
+                </div>
+                <div class="clothing-option rounded-lg overflow-hidden" data-clothing="sweater">
+                    <img src="https://via.placeholder.com/150x200?text=Sweater" class="w-full h-32 object-cover">
+                    <p class="text-center mt-2">Sweater</p>
+                </div>
+                <div class="clothing-option rounded-lg overflow-hidden" data-clothing="custom">
+                    <img src="https://via.placeholder.com/150x200?text=Custom" class="w-full h-32 object-cover">
+                    <p class="text-center mt-2">Custom</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Adjustments</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-gray-700 mb-2">Clothing Opacity</label>
+                    <input type="range" id="opacitySlider" min="0" max="100" value="70" class="w-full">
+                    <div class="flex justify-between text-sm text-gray-500 mt-1">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Clothing Position</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">X Position</label>
+                            <input type="range" id="xPosition" min="-50" max="50" value="0" class="w-full">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-500 mb-1">Y Position</label>
+                            <input type="range" id="yPosition" min="-50" max="50" value="0" class="w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="applyBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">Apply Clothing</button>
+                <button id="resetBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg transition">Reset</button>
+                <button id="downloadBtn" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition">Download Result</button>
+            </div>
+        </div>
     </div>
-    <div class="contact">
-        <p>Kiran Mote</p>
-        <p>Contact: 7517833790</p>
-    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const personImage = document.getElementById('personImage');
+            const clothingOverlay = document.getElementById('clothingOverlay');
+            const referenceImage = document.getElementById('referenceImage');
+            const personUpload = document.getElementById('personUpload');
+            const clothingUpload = document.getElementById('clothingUpload');
+            const personDropzone = document.getElementById('personDropzone');
+            const clothingDropzone = document.getElementById('clothingDropzone');
+            const opacitySlider = document.getElementById('opacitySlider');
+            const xPosition = document.getElementById('xPosition');
+            const yPosition = document.getElementById('yPosition');
+            const applyBtn = document.getElementById('applyBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const clothingOptions = document.querySelectorAll('.clothing-option');
+
+            // Predefined clothing images
+            const clothingImages = {
+                tshirt: 'https://images.unsplash.com/photo-1529374257234-475e5682b81e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                shirt: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                dress: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                jacket: 'https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                sweater: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                custom: null
+            };
+
+            // Current state
+            let currentClothing = null;
+
+            // Event Listeners
+            personUpload.addEventListener('change', handlePersonUpload);
+            clothingUpload.addEventListener('change', handleClothingUpload);
+
+            // Dropzone events for person
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                personDropzone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                personDropzone.addEventListener(eventName, highlightPerson, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                personDropzone.addEventListener(eventName, unhighlightPerson, false);
+            });
+
+            personDropzone.addEventListener('drop', handlePersonDrop, false);
+            personDropzone.addEventListener('click', () => personUpload.click());
+
+            // Dropzone events for clothing
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                clothingDropzone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                clothingDropzone.addEventListener(eventName, highlightClothing, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                clothingDropzone.addEventListener(eventName, unhighlightClothing, false);
+            });
+
+            clothingDropzone.addEventListener('drop', handleClothingDrop, false);
+            clothingDropzone.addEventListener('click', () => clothingUpload.click());
+
+            // Clothing options
+            clothingOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    clothingOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+
+                    const clothingType = this.getAttribute('data-clothing');
+                    currentClothing = clothingType;
+
+                    if (clothingType === 'custom') {
+                        clothingUpload.click();
+                    } else {
+                        referenceImage.src = clothingImages[clothingType];
+                        clothingOverlay.src = clothingImages[clothingType];
+                        clothingOverlay.style.display = 'block';
+                        updateClothingOverlay();
+                    }
+                });
+            });
+
+            // Adjustment controls
+            opacitySlider.addEventListener('input', updateClothingOverlay);
+            xPosition.addEventListener('input', updateClothingOverlay);
+            yPosition.addEventListener('input', updateClothingOverlay);
+
+            // Buttons
+            applyBtn.addEventListener('click', applyClothing);
+            resetBtn.addEventListener('click', resetAll);
+            downloadBtn.addEventListener('click', downloadResult);
+
+            // Functions
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            function highlightPerson() {
+                personDropzone.classList.add('active');
+            }
+
+            function unhighlightPerson() {
+                personDropzone.classList.remove('active');
+            }
+
+            function highlightClothing() {
+                clothingDropzone.classList.add('active');
+            }
+
+            function unhighlightClothing() {
+                clothingDropzone.classList.remove('active');
+            }
+
+            function handlePersonDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length) {
+                    handlePersonFiles(files);
+                }
+            }
+
+            function handleClothingDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length) {
+                    handleClothingFiles(files);
+                }
+            }
+
+            function handlePersonUpload(e) {
+                handlePersonFiles(e.target.files);
+            }
+
+            function handleClothingUpload(e) {
+                handleClothingFiles(e.target.files);
+            }
+
+            function handlePersonFiles(files) {
+                if (files.length) {
+                    const file = files[0];
+                    if (file.type.match('image.*')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            personImage.src = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            function handleClothingFiles(files) {
+                if (files.length) {
+                    const file = files[0];
+                    if (file.type.match('image.*')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            referenceImage.src = e.target.result;
+                            clothingOverlay.src = e.target.result;
+                            clothingOverlay.style.display = 'block';
+                            updateClothingOverlay();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            function updateClothingOverlay() {
+                const opacity = opacitySlider.value / 100;
+                const xPos = xPosition.value;
+                const yPos = yPosition.value;
+
+                clothingOverlay.style.opacity = opacity;
+                clothingOverlay.style.transform = `translate(${xPos}px, ${yPos}px)`;
+            }
+
+            function applyClothing() {
+                // In a real app, this would apply the clothing to the person image
+                // For this demo, we'll just show a success message
+                alert('Clothing applied successfully! Adjust the sliders to fine-tune the appearance.');
+            }
+
+            function resetAll() {
+                personImage.src = 'https://via.placeholder.com/300x400?text=Upload+Person';
+                referenceImage.src = 'https://via.placeholder.com/300x400?text=Upload+Clothing';
+                clothingOverlay.style.display = 'none';
+                clothingOverlay.src = '';
+                opacitySlider.value = 70;
+                xPosition.value = 0;
+                yPosition.value = 0;
+                updateClothingOverlay();
+
+                // Remove selected class from all clothing options
+                clothingOptions.forEach(opt => opt.classList.remove('selected'));
+
+                currentClothing = null;
+            }
+
+            function downloadResult() {
+                // In a real app, this would combine the images and download
+                // For this demo, we'll just show a message
+                alert('In a real application, this would download the combined image with the new clothing.');
+
+                // Here's how it might work in a real implementation:
+                /*
+                const canvas = document.createElement('canvas');
+                canvas.width = personImage.width;
+                canvas.height = personImage.height;
+                const ctx = canvas.getContext('2d');
+
+                // Draw person image
+                ctx.drawImage(personImage, 0, 0);
+
+                // Draw clothing overlay with current settings
+                ctx.globalAlpha = opacitySlider.value / 100;
+                ctx.drawImage(
+                    clothingOverlay,
+                    parseInt(xPosition.value),
+                    parseInt(yPosition.value),
+                    clothingOverlay.width,
+                    clothingOverlay.height
+                );
+
+                // Convert to data URL and download
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'new-outfit.png';
+                link.href = dataURL;
+                link.click();
+                */
+            }
+        });
+    </script>
 </body>
 </html>
