@@ -1,17 +1,27 @@
 from flask import Flask, render_template, request, jsonify
 from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+load_dotenv(dotenv_path="/Users/KDADASAH/Desktop/safeagi/.env", override=True)
+
+#load_dotenv()  # take environment variables from .env.
+
+api_key = os.getenv("key")
 
 app = Flask(__name__)
 
 # Initialize OpenAI client
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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"  # Replace with your actual API key securely
+    #  api_key="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"  # Replace with your actual API key securely
 )
+
 
 @app.route('/')
 def home():
     return render_template('deepseek.html')
+
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -28,6 +38,7 @@ def chat():
 
     response = completion.choices[0].message.content
     return jsonify({'response': response})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
