@@ -5,7 +5,7 @@ import os
 
 load_dotenv(dotenv_path="/Users/KDADASAH/Desktop/safeagi/.env", override=True)
 
-#load_dotenv()  # take environment variables from .env.
+#load_dotenv()  # take environment variables from .env. fdsfs
 
 api_key = os.getenv("key")
 
